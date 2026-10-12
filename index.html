@@ -29,7 +29,7 @@ body{
   color:var(--ink); -webkit-user-select:none; user-select:none;
   -webkit-tap-highlight-color:transparent; touch-action:none;
 }
-#app{position:relative; width:100%; height:100%; max-width:520px; margin:0 auto; overflow:hidden; background:#86cdf2;}
+#app{position:fixed; top:0; bottom:0; left:0; right:0; max-width:520px; margin:0 auto; overflow:hidden; background:#86cdf2;}
 #cv,#fx{position:absolute; inset:0; width:100%; height:100%; display:block;}
 #cv{image-rendering:pixelated; image-rendering:crisp-edges;}
 #fx{pointer-events:none;}
@@ -37,7 +37,7 @@ button{font-family:inherit; cursor:pointer;}
 button:focus-visible{outline:3px solid var(--black); outline-offset:3px;}
 
 /* HUD */
-#hud{position:absolute; left:0; right:0; top:0; padding:10px 64px 0 12px; display:none; pointer-events:none;}
+#hud{position:absolute; left:0; right:0; top:0; padding:calc(10px + env(safe-area-inset-top, 0px)) 64px 0 12px; display:none; pointer-events:none;}
 .hud-row{display:flex; gap:8px; align-items:stretch;}
 .chip{background:rgba(20,20,20,.74); color:#fff; border-radius:14px; padding:6px 11px 7px; line-height:1.05;}
 .chip small{display:block; font-size:11px; opacity:.75; margin-bottom:2px;}
@@ -56,7 +56,7 @@ button:focus-visible{outline:3px solid var(--black); outline-offset:3px;}
 #muteBtn{position:absolute; top:10px; right:12px; width:44px; height:44px; border-radius:50%; border:none; background:rgba(20,20,20,.74); color:#fff; font-size:20px; z-index:20; display:flex; align-items:center; justify-content:center;}
 
 /* Controls */
-#controls{position:absolute; left:0; right:0; bottom:0; padding:12px 12px 16px; display:none; justify-content:space-between; align-items:flex-end; gap:10px;}
+#controls{position:absolute; left:0; right:0; bottom:0; padding:12px 12px calc(16px + env(safe-area-inset-bottom, 0px)); display:none; justify-content:space-between; align-items:flex-end; gap:10px;}
 .pad{display:flex; gap:10px;}
 .btn{width:min(78px,21vw); height:min(78px,21vw); border-radius:22px; border:none; background:rgba(20,20,20,.66); color:#fff; font-size:30px; font-weight:800; touch-action:none; display:flex; align-items:center; justify-content:center; box-shadow:0 5px 0 rgba(0,0,0,.35);}
 .btn.on{transform:translateY(4px); box-shadow:0 1px 0 rgba(0,0,0,.35);}
@@ -68,15 +68,15 @@ button:focus-visible{outline:3px solid var(--black); outline-offset:3px;}
 .screen{position:absolute; inset:0; display:none; flex-direction:column; align-items:center; z-index:10;}
 .screen.show{display:flex;}
 
-#menu{background:var(--yellow); color:var(--black); justify-content:space-between; padding:72px 22px 26px; overflow:hidden;}
+#menu{background:var(--yellow); color:var(--black); justify-content:flex-start; gap:clamp(6px,1.6vh,16px); padding:calc(56px + env(safe-area-inset-top, 0px)) 22px calc(18px + env(safe-area-inset-bottom, 0px)); overflow:hidden;}
 #menu::before{content:""; position:absolute; inset:0; background:repeating-linear-gradient(-18deg, transparent 0 34px, rgba(20,20,20,.06) 34px 40px); pointer-events:none;}
-.menu-top{position:relative; text-align:left; width:100%;}
+.menu-top{position:relative; text-align:left; width:100%; flex:none;}
 .brand{font-weight:900; font-size:clamp(46px,15vw,72px); line-height:.86; letter-spacing:-.02em; margin:0;}
 .brand span{display:block; -webkit-text-stroke:2px var(--black); color:transparent;}
 .slogan{font-weight:800; font-size:clamp(20px,5.6vw,26px); line-height:1.15; margin:18px 0 8px; max-width:20ch;}
 .sub{font-size:15px; line-height:1.4; margin:0; max-width:32ch; color:#3a3200;}
-.hero-car{position:relative; width:min(270px,70vw); aspect-ratio:1.45; margin:4px auto 0; display:block; image-rendering:pixelated; image-rendering:crisp-edges;}
-.menu-bottom{position:relative; width:100%; display:flex; flex-direction:column; gap:14px;}
+.hero-car{position:relative; width:100%; height:100%; max-width:300px; max-height:210px; margin:0 auto; display:block; object-fit:contain; image-rendering:pixelated; image-rendering:crisp-edges;}
+.menu-bottom{position:relative; width:100%; display:flex; flex-direction:column; gap:12px; flex:none; margin-top:auto;}
 .opt-row{display:flex; align-items:center; justify-content:space-between; gap:10px;}
 .opt-row > span{font-size:14px; font-weight:600;}
 .seg{display:flex; background:rgba(20,20,20,.1); border-radius:14px; padding:3px;}
@@ -109,8 +109,9 @@ button:focus-visible{outline:3px solid var(--black); outline-offset:3px;}
 .mode-dots button{width:26px; height:32px; padding:0; border:none; background:none; display:flex; align-items:center; justify-content:center;}
 .mode-dots button::before{content:""; width:9px; height:9px; border-radius:5px; background:rgba(20,20,20,.25); transition:width .2s, background .2s;}
 .mode-dots button.on::before{width:24px; background:var(--black);}
-.edition{display:none; margin:6px 0 0; font-size:clamp(32px,10.5vw,46px); line-height:1;}
-.hero-wrap{position:relative; width:100%; display:flex; align-items:center; justify-content:center;}
+.edition{display:none; margin:4px 0 0; font-size:clamp(28px,9.5vw,44px); line-height:1.05; white-space:nowrap;}
+.edition.long{font-size:clamp(24px,7.6vw,36px);}
+.hero-wrap{position:relative; width:100%; flex:1 1 0; min-height:64px; display:flex; align-items:center; justify-content:center;}
 .mode-arrow{position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border:none; border-radius:50%; background:rgba(20,20,20,.1); color:inherit; font-size:28px; font-weight:800; line-height:1; display:flex; align-items:center; justify-content:center; z-index:2;}
 .mode-arrow.prev{left:-6px;} .mode-arrow.next{right:-6px;}
 #menu{transition:background-color .3s;}
@@ -186,13 +187,11 @@ button:focus-visible{outline:3px solid var(--black); outline-offset:3px;}
 @media (max-height: 760px){
   #menu{padding-top:58px; padding-bottom:18px;}
   .slogan{margin-top:12px;} .menu-bottom{gap:10px;}
-  .hero-car{width:min(200px,52vw);}
   .seg button{padding:7px 11px;}
   .start{padding:16px 20px;}
 }
 @media (max-height: 640px){
   .brand{font-size:44px;} .sub{display:none;}
-  .hero-car{width:min(160px,42vw);}
 }
 @media (max-height: 700px){ .edition{font-size:30px; margin-top:2px;} }
 @media (prefers-reduced-motion: reduce){ .btn,.start{transition:none;} #app[data-mode="xm"] #menu::before, #app[data-mode="sk"] #menu::before{animation:none;} }
@@ -531,7 +530,7 @@ const TUK = { body: hex('#2E6FD8'), seat: hex('#3a2a2a'), roof: hex('#E5484D') }
 
 /* ========================= Seasonal themes ========================= */
 const MODES = ['std', 'hw', 'xm', 'cn', 'sk'];
-let MODE = 'std', tintK = 1, TINT = null;
+let MODE = 'std', tintK = 1, TINT = null, DQ = 1;  // DQ: detail distance multiplier, lowered automatically on slow phones
 const SNOW = [244, 247, 252];
 const THEMES = {
   std: { sky:['#45aeea','#5cb9ee','#76c5f1','#91d1f3','#addcf4','#c9e6f3','#e4ede9','#fde9d2'].map(hex), haze:[255,238,218], ground:'#d6cdbb',
@@ -603,7 +602,7 @@ function fq(f, u0, v0, u1, v1, c){ if (f) poly([fpt(f, u0, v0), fpt(f, u1, v0), 
 function ftext(f, txt, u, v, hFrac, c){
   if (!f) return;
   const p = fpt(f, u, v), hp = Math.abs(fpt(f, u, 0)[1] - fpt(f, u, 1)[1]) * hFrac, wp = Math.abs(fpt(f, 1, v)[0] - fpt(f, 0, v)[0]);
-  const size = Math.min(hp, wp * .9 / (txt.length * .62)); if (size < 3.5) return;
+  const size = Math.min(hp, wp * .9 / (txt.length * .62)); if (size < 5) return;
   ctx.fillStyle = rgb(fogc(c)); ctx.font = `900 ${size.toFixed(1)}px Rubik, 'Noto Sans Thai', 'Noto Sans SC', sans-serif`;
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(txt, p[0], p[1] + size * .05);
 }
@@ -678,6 +677,11 @@ const SK_PROPS = [['barrel',24],['chedi',14],['gunstall',12],['parasol',12],['pp
 const CN_PROPS = [['kumquat',24],['glion',14],['liondance',10],['drum',12],['lanternpole',16],['board',12],['cart',10]];
 const HW_PROPS = [['pumpkin',34],['ghost',16],['skeleton',16],['tomb',14],['board',10],['cart',8]];
 const XM_PROPS = [['snowman',26],['xtree',16],['gifts',20],['cane',12],['board',10],['bench',8]];
+const PROP_LOD = { pot:[1.0,[196,98,58]], board:[1.3,[230,226,214]], cart:[2.4,[196,202,210]], spirit:[2.4,[244,240,232]], bench:[.9,[156,112,70]], planter:[1.0,[90,150,90]],
+  pumpkin:[.6,[236,122,26]], ghost:[1.6,[236,238,255]], skeleton:[1.9,[238,232,214]], tomb:[1.0,[156,156,166]], snowman:[1.5,[244,247,252]], xtree:[2.2,[30,118,66]],
+  gifts:[.9,[214,40,46]], cane:[1.5,[214,40,46]], barrel:[.9,[36,112,214]], chedi:[1.3,[226,198,142]], gunstall:[1.0,[190,150,100]], parasol:[2.3,[240,190,60]],
+  garland:[1.5,[250,250,240]], kumquat:[1.6,[40,118,62]], glion:[1.5,[158,156,160]], liondance:[1.5,[214,30,40]], drum:[1.2,[206,30,36]], lanternpole:[3.2,[150,40,40]] };
+const BIG_PROPS = { lamp:1, tree:1, km:1, billboard:1, bigtree:1, ppickup:1 };
 const BLOCK = 30, KM_Z = km => km * 1000 / CONFIG.distanceScale;
 
 function addProp(k, side, x, z, s, extra){
@@ -741,6 +745,16 @@ function drawProp(p){ tintK = THEME.night ? .7 : 1; drawProp0(p); tintK = 1; }
 function drawProp0(p){
   if (p.z + 2.5 - camZ < NEAR) return;
   setFog(p.z);
+  const L = PROP_LOD[p.k];
+  if (L && p.z - camZ > 55 * DQ){ box(p.x, p.hw * .75, p.z - p.hl * .75, p.z + p.hl * .75, p.hy, p.hy + L[0] * p.sc * p.sq, L[1]); return; }
+  if ((p.k === 'tree' || p.k === 'lamp') && p.z - camZ > 70 * DQ){
+    const x = p.x, z = p.z, y = p.hy, q = p.sq;
+    if (p.k === 'lamp'){ box(x, .08, z - .08, z + .08, y, y + 6.2 * q, COL.pole); return; }
+    box(x, .14, z - .14, z + .14, y, y + 2.2 * q, MODE === 'hw' ? [62,46,50] : COL.bark);
+    if (MODE === 'hw'){ box(x, .7, z - .06, z + .06, y + 2.4 * q, y + 2.52 * q, [62,46,50]); return; }
+    hull(x, z - 1.2, z + 1.2, y + 1.6 * q, y + 4.4 * q, 1.25, .1, 1.1, 1.1, MODE === 'cn' ? [246,160,196] : MODE === 'xm' ? [34,112,66] : COL.leaf);
+    return;
+  }
   const y = p.hy, q = p.sq, x = p.x, z = p.z, s = p.seed, side = p.side, D = DISTRICTS[p.di];
   const K = p.sc, X = v => x + (v - x) * K, Z = v => z + (v - z) * K;
   const B_ = (cx, hw, zn, zf, h0, h1, c, n, t, sd) => box(X(cx), hw * K, Z(zn), Z(zf), y + h0 * q * K, y + h1 * q * K, c, n, t, sd);
@@ -934,6 +948,7 @@ function drawOver0(o){
     for (let i = 0; i < 7; i++){
       const xx = -W2 + (i + .5) * W2 * 2 / 7, hh = hAt(xx);
       withTint(THEME.night ? 0 : 1, () => box(xx, .26, z - .26, z + .26, hh - .78, hh - .12, MODE === 'hw' ? [255,140,30] : [214,40,40]));
+      if (z - camZ > 110 * DQ) continue;
       box(xx, .14, z - .14, z + .14, hh - .12, hh - .04, gold);
       box(xx, .05, z - .05, z + .05, hh - 1.05, hh - .78, gold);
     }
@@ -1051,7 +1066,7 @@ function update(dt){
   const btn = (input.right ? 1 : 0) - (input.left ? 1 : 0);
   let target = btn * CONFIG.steerSpeed;
   if (!btn && ctlMode === 'tilt') target = tilt.steer * CONFIG.steerSpeed * 1.1;
-  G.vx += (target - G.vx) * Math.min(1, dt * 10);
+  G.vx += (target - G.vx) * Math.min(1, dt * 16);
   G.x += G.vx * dt;
   const lim = ROAD_HALF + 2.4 - PLAYER.hw;
   if (G.x < -lim){ G.x = -lim; G.vx = 0; } if (G.x > lim){ G.x = lim; G.vx = 0; }
@@ -1188,31 +1203,42 @@ function render(){
   if (G.shake > 0){ const a = G.shake * 14; ctx.translate((Math.random() - .5) * a, (Math.random() - .5) * a); }
   drawSky(tn);
 
-  // road
-  const startZ = Math.floor(camZ / SEG) * SEG, n = Math.ceil(DRAW_DIST / SEG);
+  // road: flat surfaces in 24 m chunks (few draw calls), small details per 6 m segment
+  const n = Math.ceil(DRAW_DIST / SEG), CL = SEG * 4, xmr = MODE === 'xm', hwr = MODE === 'hw';
+  const asph = xmr ? [110,116,130] : MODE === 'sk' ? [70,80,98] : [88,94,108], bank = [236,241,248];
+  const c0 = Math.floor(camZ / CL) * CL;
+  for (let z1 = c0 + Math.ceil(DRAW_DIST / CL) * CL; z1 >= c0; z1 -= CL){
+    const z2 = z1 + CL + .1; if (z2 - camZ < NEAR) continue;
+    const za = Math.max(z1, camZ + NEAR), ci = Math.round(z1 / CL), alt = ci % 2 === 0, j = (rnd(ci) - .5) * 6;
+    setFog(Math.max(z1, camZ) + CL * .5);
+    const Dw = DISTRICTS[districtIdx(z1 + CL * .5)];
+    const walk = xmr ? (alt ? SNOW : [232,237,245]) : (alt ? Dw.walk[0] : Dw.walk[1]);
+    const cuB = xmr ? [250,250,250] : hwr ? [26,20,34] : MODE === 'cn' ? [236,186,60] : Dw.curb[1];
+    ground(-ROAD_HALF - 9, ROAD_HALF + 9, za, z2, walk);
+    withTint(.3, () => { ground(-ROAD_HALF - .38, -ROAD_HALF, za, z2, cuB); ground(ROAD_HALF, ROAD_HALF + .38, za, z2, cuB); });
+    ground(-ROAD_HALF, ROAD_HALF, za, z2, [asph[0] + j, asph[1] + j, asph[2] + j]);
+    if (xmr){ ground(-ROAD_HALF, -ROAD_HALF + .55, za, z2, bank); ground(ROAD_HALF - .55, ROAD_HALF, za, z2, bank); }
+    ground(-.24, -.1, za, z2, COL.yellow); ground(.1, .24, za, z2, COL.yellow);
+  }
+  const startZ = Math.floor(camZ / SEG) * SEG;
   for (let i = n; i >= 0; i--){
     const z1 = startZ + i * SEG, z2 = z1 + SEG + .1;
     if (z2 - camZ < NEAR) continue;
-    const za = Math.max(z1, camZ + NEAR), idx = Math.round(z1 / SEG), alt = idx % 2 === 0, j = (rnd(idx) - .5) * 7;
+    const za = Math.max(z1, camZ + NEAR), idx = Math.round(z1 / SEG), d = z1 - camZ;
     setFog(z1);
-    const Dw = DISTRICTS[districtIdx(z1)], xmr = MODE === 'xm', hwr = MODE === 'hw';
-    const walk = xmr ? (alt ? SNOW : [232,237,245]) : (alt ? Dw.walk[0] : Dw.walk[1]);
-    const cu = xmr ? (alt ? [214,40,46] : [250,250,250]) : hwr ? (alt ? [240,124,30] : [26,20,34]) : MODE === 'cn' ? (alt ? [206,30,36] : [236,186,60]) : (alt ? Dw.curb[0] : Dw.curb[1]);
-    ground(-ROAD_HALF - 9, ROAD_HALF + 9, za, z2, walk);
-    withTint(.3, () => { ground(-ROAD_HALF - .38, -ROAD_HALF, za, z2, cu); ground(ROAD_HALF, ROAD_HALF + .38, za, z2, cu); });
-    if (idx % 2 === 0){ const sl = shade(walk, -.06); ground(-ROAD_HALF - 2.45, -ROAD_HALF - 2.35, za, z2, sl); ground(ROAD_HALF + 2.35, ROAD_HALF + 2.45, za, z2, sl); }
-    ground(-ROAD_HALF, ROAD_HALF, za, z2, xmr ? [110 + j, 116 + j, 130 + j] : MODE === 'sk' ? [70 + j, 80 + j, 98 + j] : [88 + j, 94 + j, 108 + j]);
-    if (MODE === 'sk' && rnd(idx * 4.3) > .86){ const px = (rnd(idx * 6.1) - .5) * 9, ze = Math.min(z2, z1 + 3); if (ze > za + .05) ground(px - .7, px + .7, za, ze, [92,118,146]); }
-    if (xmr){
-      const bank = [236,241,248], wl = .5 + rnd(idx * 1.7) * .25, wr = .5 + rnd(idx * 2.3) * .25;
-      ground(-ROAD_HALF, -ROAD_HALF + wl, za, z2, bank); ground(ROAD_HALF - wr, ROAD_HALF, za, z2, bank);
+    const Dw = DISTRICTS[districtIdx(z1)];
+    if (idx % 2 === 0){
+      const cu = xmr ? [214,40,46] : hwr ? [240,124,30] : MODE === 'cn' ? [206,30,36] : Dw.curb[0];
+      withTint(.3, () => { ground(-ROAD_HALF - .38, -ROAD_HALF, za, z2, cu); ground(ROAD_HALF, ROAD_HALF + .38, za, z2, cu); });
+      if (d < 110 * DQ){ const sl = shade(xmr ? SNOW : Dw.walk[0], -.07); ground(-ROAD_HALF - 2.45, -ROAD_HALF - 2.35, za, z2, sl); ground(ROAD_HALF + 2.35, ROAD_HALF + 2.45, za, z2, sl); }
     }
+    if (xmr && idx % 2 && d < 140 * DQ){ ground(-ROAD_HALF + .55, -ROAD_HALF + .78, za, z2, bank); ground(ROAD_HALF - .74, ROAD_HALF - .55, za, z2, bank); }
+    if (MODE === 'sk' && rnd(idx * 4.3) > .86){ const px = (rnd(idx * 6.1) - .5) * 9, ze = Math.min(z2, z1 + 3); if (ze > za + .05) ground(px - .7, px + .7, za, ze, [92,118,146]); }
     const dashEnd = z1 + SEG * .6;
     if (idx % 3 === 0 && dashEnd > za){
       ground(-LANE_W - .08, -LANE_W + .08, za, dashEnd, [236, 236, 230]);
       ground(LANE_W - .08, LANE_W + .08, za, dashEnd, [236, 236, 230]);
     }
-    ground(-.24, -.1, za, z2, COL.yellow); ground(.1, .24, za, z2, COL.yellow);
   }
   // zebra crossings
   for (let k = Math.ceil(camZ / CROSS_EVERY); k * CROSS_EVERY < camZ + DRAW_DIST; k++){
@@ -1243,7 +1269,7 @@ function render(){
   // pass 3: road objects + player, far to near
   const list = G.objs.filter(o => o.z + o.hl - camZ > NEAR && o.z - camZ < DRAW_DIST).map(o => ({ z: o.z - o.hl, o }));
   list.push({ z: G.z - PLAYER.hl, player: true });
-  for (const p of G.props) if (p.z + 2.5 - camZ > NEAR && p.z - camZ < DRAW_DIST) list.push({ z: p.z - p.hl, prop: p });
+  for (const p of G.props) if (p.z + 2.5 - camZ > NEAR && p.z - camZ < (BIG_PROPS[p.k] ? DRAW_DIST * (.6 + .4 * DQ) : 140 * DQ)) list.push({ z: p.z - p.hl, prop: p });
   for (const ov of overheadItems()) list.push({ z: ov.z, over: ov });
   if (FINISH_Z - camZ < DRAW_DIST && FINISH_Z - camZ > NEAR) list.push({ z: FINISH_Z, finish: true });
   list.sort((a, b) => b.z - a.z);
@@ -1308,7 +1334,7 @@ function drawBuilding0(k, side){
     const tz = z0 + 4 + rnd(seed + 4.3) * 10;
     box(xc + side * (rnd(seed + 4.5) - .5) * 2, .9, tz, tz + 1.8, h, h + 1.5, [222,222,214]);
   }
-  if (d > 240) return;
+  if (d > 150 * DQ) return;
   const za = Math.max(z0 + .8, camZ + NEAR), zb = z1 - .8;
   if (zb <= za) return;
   // shopfront + striped awning
@@ -1316,17 +1342,17 @@ function drawBuilding0(k, side){
   const aw = MODE === 'hw' ? pick([[240,124,30],[124,52,176],[240,124,30]], rnd(seed + 5.1)) : MODE === 'xm' ? [214,40,46] : hex(pick(D.awn, rnd(seed + 5.1))), xo = xi - side * 1.15;
   const aw2 = MODE === 'hw' ? [22,18,28] : MODE === 'xm' ? [250,250,250] : di === 1 ? [224,170,50] : [246,240,230];
   tintK = THEME.night ? .45 : 1;
-  for (let z = za, m = 0; z < zb; z += 2, m++){
+  if (d < 90 * DQ) for (let z = za, m = 0; z < zb; z += 2, m++){
     const ze = Math.min(zb, z + 2);
     poly([P(xi, z, 3.05), P(xi, ze, 3.05), P(xo, ze, 2.55), P(xo, z, 2.55)], m % 2 ? aw2 : aw);
-  }
+  } else poly([P(xi, za, 3.05), P(xi, zb, 3.05), P(xo, zb, 2.55), P(xo, za, 2.55)], aw);
   if (MODE === 'xm') poly([P(xi, za, 3.07), P(xi, zb, 3.07), P(xi - side * .4, zb, 2.9), P(xi - side * .4, za, 2.9)], SNOW);
   tintK = 1;
   // windows
   const win = shade(base, -.45), lit = [255,244,205];
-  for (let f = 1; f * 3.2 + 1.6 < h && f < 8; f++){
+  if (d < 115 * DQ) for (let f = 1; f * 3.2 + 1.6 < h && f < (d < 65 * DQ ? 8 : 6); f++){
     const h0 = f * 3.2 + .4, h1 = h0 + 1.5;
-    if (d < 130){
+    if (d < 65 * DQ){
       for (let z = z0 + 1.2, c = 0; z + 1.8 < z1; z += 3.1, c++){
         if (z + 1.8 - camZ < NEAR) continue;
         const zz = Math.max(z, camZ + NEAR);
@@ -1336,11 +1362,12 @@ function drawBuilding0(k, side){
     } else poly([P(xi, za, h0), P(xi, zb, h0), P(xi, zb, h1), P(xi, za, h1)], win);
   }
   // Chinatown: red lanterns hanging under the awning
-  if (di === 1 && d < 130) for (let z = z0 + 2; z < z1 - 1; z += 4){
+  if (di === 1 && d < 70 * DQ) for (let z = z0 + 2; z < z1 - 1; z += 4){
     if (z - camZ < NEAR) continue;
     withTint(THEME.night ? 0 : 1, () => box(xi - side * .7, .17, z, z + .34, 1.95, 2.4, MODE === 'hw' ? [255,140,30] : [214,40,40]));
   }
   tintK = THEME.night ? .35 : 1;
+  if (d > 130 * DQ) return;
   // horizontal shop board sticking out over the sidewalk (faces traffic)
   if (rnd(seed + 7.1) > .35){
     const zs = z0 + 15 + rnd(seed + 7.3) * 3;
@@ -1361,7 +1388,7 @@ function drawBuilding0(k, side){
         fq(f, .08, .04, .92, .96, shade(sc, .14));
         const txt = pick(D.signTxt, rnd(seed + 3.7));
         const p = fpt(f, .5, .5), w = Math.abs(f.b[0] - f.a[0]), hh = Math.abs(f.a[1] - f.d[1]);
-        if (w > 5){
+        if (w > 8){
           ctx.fillStyle = rgb(fogc(di === 1 ? [255,214,90] : [255,255,255])); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
           if (di === 1){ // Chinese characters stacked top to bottom
             const ch = [...txt], sz = Math.min(w * .66, hh / ch.length * .82);
@@ -1398,14 +1425,14 @@ function drawTower(seed, side, z0, z1, xc, xi, wid, d, D){
     box(xc + side * .6, wid / 2 - 1.3, z0 + 2.5, z1 - 2.5, h, h2, shade(base, .06), undefined, MODE === 'xm' ? SNOW : undefined);
     if (rnd(seed + 4.4) > .5) box(xc + side * .6, .07, z0 + 9.9, z0 + 10.1, h2, h2 + 6, COL.pole);
   }
-  if (d > 270) return;
+  if (d > 150 * DQ) return;
   if (f) for (let i = 2, st = d < 120 ? 1 : 2; i * 3 < h - 1; i += st) fq(f, 0, i * 3 / h, 1, (i * 3 + .5) / h, shade(base, .34));
   const za = Math.max(z0 + .4, camZ + NEAR), zb = z1 - .4;
   if (zb <= za) return;
   const band = shade(base, .38), mull = shade(base, -.3);
   for (let hh = 6, st = d < 110 ? 3 : 6; hh < h - 1; hh += st) poly([P(xi, za, hh), P(xi, zb, hh), P(xi, zb, hh + .55), P(xi, za, hh + .55)], band);
-  if (d < 160) for (let z = z0 + 4; z < z1 - 1; z += 4){ if (z - camZ < NEAR) continue; poly([P(xi, z, 4.5), P(xi, z + .25, 4.5), P(xi, z + .25, h), P(xi, z, h)], mull); }
-  if (THEME.lit > .3 && d < 170) for (let hh = 6; hh < h - 2; hh += 3) for (let z = z0 + 4.4, c = 0; z < z1 - 1.4; z += 4, c++){
+  if (d < 90 * DQ) for (let z = z0 + 4; z < z1 - 1; z += 4){ if (z - camZ < NEAR) continue; poly([P(xi, z, 4.5), P(xi, z + .25, 4.5), P(xi, z + .25, h), P(xi, z, h)], mull); }
+  if (THEME.lit > .3 && d < 110 * DQ) for (let hh = 6; hh < h - 2; hh += 3) for (let z = z0 + 4.4, c = 0; z < z1 - 1.4; z += 4, c++){
     if (z - camZ < NEAR || rnd(seed * 7 + hh * 3 + c) < 1 - THEME.lit * .6) continue;
     tintK = 0; poly([P(xi, z, hh + .8), P(xi, z + 3.2, hh + .8), P(xi, z + 3.2, hh + 2.2), P(xi, z, hh + 2.2)], THEME.litC); tintK = 1;
   }
@@ -1432,13 +1459,15 @@ function drawFinishArch0(){
 function drawCar(x, z, hw, hl, body, front, player){
   const zN = z - hl, zF = z + hl;
   if (zF - camZ < NEAR) return null;
+  const far = !player && zN - camZ > 70 * DQ;
   shadow(x, zN - .2, zF + .2, hw + .15);
-  for (const sx of [-1, 1]) for (const wz of [zF - .72, zN + .72]) box(x + sx * (hw - .16), .22, wz - .38, wz + .38, 0, .74, COL.tire);
-  const low = hull(x, zN, zF, .26, .98, hw, hw, 0, 0, body);
+  if (!far) for (const sx of [-1, 1]) for (const wz of [zF - .72, zN + .72]) box(x + sx * (hw - .16), .22, wz - .38, wz + .38, 0, .74, COL.tire);
+  const low = hull(x, zN, zF, .26 - (far ? .26 : 0), .98, hw, hw, 0, 0, body);
   hull(x, zN + .06, zF - .1, .98, 1.16, hw * .99, hw * .9, front ? .1 : .14, front ? .3 : .12, body);
   const cz0 = front ? zN + 1.15 : zN + .8, cz1 = front ? zF - .8 : zF - 1.2;
   const roof = player ? COL.black : shade(body, .14);
   const cab = hull(x, cz0, cz1, 1.16, 1.76, hw * .86, hw * .64, .5, .4, COL.glass, COL.glass, roof, COL.glassHi);
+  if (far) return { low, cab, cz0, cz1, far };
   if (low){
     fq(low, 0, 0, 1, .2, COL.dark);
     if (front){ fq(low, .05, .45, .27, .82, COL.head); fq(low, .73, .45, .95, .82, COL.head); fq(low, .33, .36, .67, .78, COL.dark); }
@@ -1486,8 +1515,8 @@ function drawObj0(o){
   if (o.type === 'car' || o.type === 'oncoming'){
     o.rgb = o.rgb || hex(o.color);
     const r = drawCar(o.x, o.z, o.hw, o.hl, o.rgb, o.type === 'oncoming', false);
-    if (MODE === 'hw' && o.seed > 70 && r && r.cab) mPumpkin(o.x, (r.cz0 + r.cz1) / 2, .85, 1.76);
-    if (MODE === 'cn' && r && r.cab) mDragonDeco(o.x, r.cz0 + .55, r.cz1 - .4, 1.76, o.type === 'oncoming');
+    if (MODE === 'hw' && o.seed > 70 && r && r.cab && !r.far) mPumpkin(o.x, (r.cz0 + r.cz1) / 2, .85, 1.76);
+    if (MODE === 'cn' && r && r.cab && !r.far) mDragonDeco(o.x, r.cz0 + .55, r.cz1 - .4, 1.76, o.type === 'oncoming');
   }
   else if (o.type === 'tuktuk'){ drawTuk(o); if (MODE === 'hw' && o.z - o.hl - .12 - camZ > NEAR) mPumpkin(o.x, o.z - .3, .75, 1.88); }
   else if (o.type === 'sleigh' || o.type === 'osleigh'){ o.rgb = o.rgb || hex(o.color); drawSleigh(o.x, o.z, o.hw, o.hl, o.rgb, o.type === 'osleigh', false); }
@@ -1756,6 +1785,12 @@ function drawSleigh(x, z, hw, hl, body, front, player){
   const coat = player ? COL.yellow : (body[0] > 180 && body[1] < 90 ? [40,120,70] : red);
   const dx = player ? x - .1 : x;
   shadow(x, zN - .1, zF + .1, hw + .1);
+  if (!player && Math.min(zN, zF) - camZ > 50 * DQ){
+    const rein = () => { Bu(x - .42, .19, 3.05, 4.45, .4, 1.85, brown); Bu(x + .42, .19, 3.05, 4.45, .4, 1.85, brown); };
+    const sl = () => { Bu(x, hw * .9, 0, 2.5, .3, 1.4, body); Bu(dx, .28, 1.3, 1.68, 1.0, 2.2, coat); };
+    if (front){ sl(); rein(); } else { rein(); sl(); }
+    return { ok: true };
+  }
   const parts = {
     rein(){
       for (const rx of [-.42, .42]){
@@ -1886,6 +1921,7 @@ function drawPickup(x, z, hw, hl, body, sides){
   const zN = z - hl, zF = z + hl;
   if (zF - camZ < NEAR) return null;
   shadow(x, zN - .2, zF + .2, hw + .15);
+  if (zN - camZ > 60 * DQ){ box(x, hw * .9, zN + 2.05, zF - 1.0, 1.0, 1.85, COL.glass); box(x, hw, zN, zF, .2, 1.42, body); box(x, .7, zN + 1.0, zN + 1.8, 1.42, 1.95, SK_BLUE); return null; }
   for (const sx of [-1, 1]) for (const wz of [zF - .8, zN + .85]) box(x + sx * (hw - .18), .24, wz - .42, wz + .42, 0, .8, COL.tire);
   box(x, hw * .98, zF - 1.0, zF, .42, 1.0, body);                          // bonnet
   const cab = hull(x, zN + 2.05, zF - 1.0, 1.0, 1.85, hw * .95, hw * .78, .08, .3, COL.glass, COL.glass, shade(body, .14), COL.glassHi);
@@ -2100,7 +2136,7 @@ function drawFireworks(tn){
 // the menu vehicle is rendered by the same engine, close up
 function renderHero(){
   const r = heroCv.getBoundingClientRect(); if (!r.width) return;
-  const w = r.width, h = r.height, q = Math.min(1, CONFIG.retroWidth * .6 / w);
+  const w = Math.min(r.width, r.height * 1.45), h = w / 1.45, q = Math.min(1, CONFIG.retroWidth * .6 / w);
   heroCv.width = Math.round(w * q); heroCv.height = Math.round(h * q);
   const sv = { ctx, W, H, F, HOR, CX, Q, camX, camZ, camH, fog };
   ctx = heroCv.getContext('2d'); ctx.setTransform(q, 0, 0, q, 0, 0); ctx.clearRect(0, 0, w, h);
@@ -2142,7 +2178,7 @@ function setMode(m, dir){
   $('app').dataset.mode = m;
   document.documentElement.style.setProperty('--bg', MODE_BG[m]);
   document.querySelectorAll('#modeDots button').forEach(b => { const on = b.dataset.m === m; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
-  $('edition').textContent = MODE_NAMES[m];
+  $('edition').textContent = MODE_NAMES[m]; $('edition').classList.toggle('long', MODE_NAMES[m].length > 12);
   $('vehRow').style.display = m === 'xm' ? 'none' : '';
   applyPlayer(); applyLang(); renderHero();
   try { localStorage.setItem('md_mode', m); } catch(e){}
@@ -2245,8 +2281,13 @@ document.addEventListener('visibilitychange', () => {
 
 /* ========================= Loop ========================= */
 let last = performance.now();
+let ftAvg = 16, ftT = 0;
 function frame(now){
-  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  const raw = now - last, dt = Math.min(0.05, raw / 1000); last = now;
+  if (state === 'play' && !paused && raw < 250){
+    ftAvg += (raw - ftAvg) * .08; ftT += raw;
+    if (ftT > 900){ ftT = 0; if (ftAvg > 24 && DQ > .5) DQ = Math.max(.5, DQ - .12); else if (ftAvg < 15 && DQ < 1) DQ = Math.min(1, DQ + .06); }
+  }
   if (!paused && G && (state === 'play')){ update(dt); if (state === 'play') updateHud(); }
   if (G && state !== 'menu') render();
   requestAnimationFrame(frame);
