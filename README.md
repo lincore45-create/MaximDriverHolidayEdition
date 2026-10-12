@@ -1,2 +1,2 @@
-# MaximDriverSpecialEdition
+# MaximDriverHolidayEdition
 Maxim app promo game
